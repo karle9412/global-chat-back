@@ -5,6 +5,10 @@ import com.green.chat.dto.UserDTO;
 import com.green.chat.model.UserEntity;
 import com.green.chat.security.TokenProvider;
 import com.green.chat.service.UserService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
+@Api(tags = { "User" })
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -42,6 +47,8 @@ public class UserController {
     // Bean으로 작성해도 됨.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Operation(summary = "회원가입", description = "user 정보 생성")
+    @ApiResponse(code = 200, message = "ok")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {

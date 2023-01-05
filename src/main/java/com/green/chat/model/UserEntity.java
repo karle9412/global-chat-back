@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.mapping.Array;
+import org.hibernate.id.UUIDGenerator;
 
 import java.util.List;
 import java.util.Set;
