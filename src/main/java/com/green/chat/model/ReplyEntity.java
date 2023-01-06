@@ -1,44 +1,51 @@
-package com.green.Entity;
-
-import java.time.LocalDate;
+package com.green.chat.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.GenericGenerator;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "REPLY_TB")
 @DynamicInsert
-@Getter
-@Setter
+@Data
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="REPLY_TB")
 public class ReplyEntity {
   
   @Id
-  private Number replyId;
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  private String id;
 
   @Column(nullable = false)
   private String email;
 
   @Column(nullable = false)
-  private Number filNumber;
+  private String boardNumber;
 
-  @Column(length = 300, nullable = false)
+  @Column(nullable = false)
   private String replyContent;
 
-  private LocalDate indate = LocalDate.now();
+  @Column(nullable = true, columnDefinition = "varchar(255) default sysdate")
+  private String indate;
 
-  @Column(nullable = false)
-  private Number step = 0;
+  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
+  private String step;
 
-  @Column(nullable = false)
-  private Number lvl = 0;
+  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
+  private String lvl;
 
-  @Column(nullable = false)
-  private Number bnum = 0;
+  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
+  private String bnum;
 }

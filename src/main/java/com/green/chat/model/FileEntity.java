@@ -1,4 +1,4 @@
-package com.green.Entity;
+package com.green.chat.model;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
