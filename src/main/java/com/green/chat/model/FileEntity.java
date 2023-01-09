@@ -1,35 +1,50 @@
 package com.green.chat.model;
-import java.time.LocalDate;
+
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Entity
-@Table(name = "File_TB")
-@DynamicInsert
-@Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "File_tb")
 public class FileEntity {
-
-  @Id
-  private Number filNumber;
-
-  @Column(length = 100, nullable = false)
-  private String fileName;
-
-  @Column(length = 10, nullable = false)
-  private String fileExt;
-
-  @Column(length = 3000, nullable = false)
-  private String sFileName;
-
-  private LocalDate indate = LocalDate.now();
-  
+    
+//   @Id
+//   @GeneratedValue(strategy = GenerationType.AUTO)
+//   private Long id;
+@Id
+@GeneratedValue(generator = "system-uuid")
+@GenericGenerator(name = "system-uuid", strategy = "uuid")
+private String id;
+   
+  private String email; 
+  private String filename;
+  private String fileOriname;
+  private String fileUrl;
+    
+    @CreationTimestamp    // 입력시 시간 정보를 자동으로 입력해는 어노테이션.
+    @Column(name="insert_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date insertDate;
+ 
 }

@@ -2,8 +2,10 @@ package com.green.chat.controller;
 
 import com.green.chat.dto.ResponseDTO;
 import com.green.chat.dto.UserDTO;
+import com.green.chat.model.AlarmEntity;
 import com.green.chat.model.UserEntity;
 import com.green.chat.security.TokenProvider;
+import com.green.chat.service.AlarmService;
 import com.green.chat.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -44,6 +46,9 @@ public class UserController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @Autowired
+    private AlarmService alarmService;
+
     // Bean으로 작성해도 됨.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -71,6 +76,14 @@ public class UserController {
                     .local(registeredUser.getLocal())
                     .role(registeredUser.getRole())
                     .build();
+
+                    // 알람세팅 생성
+							AlarmEntity request = AlarmEntity.builder()
+							.email(userDTO.getEmail())                                                  
+							.build();
+                            alarmService.create(request);
+
+                            
             // 유저 정보는 항상 하나이므로 그냥 리스트로 만들어야하는 ResponseDTO를 사용하지 않고 그냥 UserDTO 리턴.
             return ResponseEntity.ok(responseUserDTO);
         } catch (Exception e) {
