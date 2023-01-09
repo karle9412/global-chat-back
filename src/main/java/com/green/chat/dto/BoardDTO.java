@@ -10,9 +10,15 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class BoardDTO {
-    private String id;
-    private String title;
-    private String content;
-    private String writer;
-    private String date;
+
+    private String bno;
+
+    private String boardTitle;
+
+    private String boardContent;
+
+    private String boardWriter;
+
+    private String boardHashTag;
+
 }

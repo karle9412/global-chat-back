@@ -5,20 +5,32 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
+import com.green.chat.dto.BoardDTO;
 import com.green.chat.model.BoardEntity;
 import com.green.chat.persistence.BoardRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
 
+    public void write(BoardEntity board) {
+        boardRepository.save(board);
+    }
+
     public List<BoardEntity> getBoardList() {
-        return null;
+        return boardRepository.findAll();
+    }
+
+    public BoardEntity getOneBoardList(String bno) {
+        return boardRepository.findByBno(bno);
+
+    }
+
+    public void delete(BoardEntity deleteList) {
+        boardRepository.delete(deleteList);
     }
 
 }
