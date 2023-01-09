@@ -32,4 +32,12 @@ public class ReplyService {
   public void delete(ReplyEntity reply) {
     replyRepository.delete(reply);
   }
+
+  public String getMaxBnum(String boardNumber) {
+    return replyRepository.getMaxBnum(boardNumber);
+  }
+
+  public String getMaxLvl(String boardNumber, String Step) {
+    return replyRepository.getMaxLvl(boardNumber, Step);
+  }
 }

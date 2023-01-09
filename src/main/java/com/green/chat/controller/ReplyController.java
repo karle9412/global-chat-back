@@ -22,6 +22,7 @@ import com.green.chat.model.ReplyEntity;
 import com.green.chat.service.ReplyService;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @RestController
@@ -31,14 +32,29 @@ public class ReplyController {
   @Autowired
   private ReplyService replyService;
 
-  @PostMapping("/register")
-  public void register(@AuthenticationPrincipal String user_email, @RequestBody ReplyDTO replyDTO) {
+  @PostMapping("/register/{boardNumber}")
+  public void register(@PathVariable String boardNumber, @AuthenticationPrincipal String user_email, @RequestBody ReplyDTO replyDTO) {
 
-    ReplyEntity register = ReplyEntity.builder()
+    String maxbnum = replyService.getMaxBnum(boardNumber);
+
+    ReplyEntity register = null;
+
+    if(replyService.getreply(boardNumber) == null){
+
+      register = ReplyEntity.builder()
         .email(user_email)
         .boardNumber(replyDTO.getBoardNumber())
         .replyContent(replyDTO.getReplyContent())
         .build();
+    } else {
+      int bnum = Integer.parseInt(maxbnum) + 1;
+      register = ReplyEntity.builder()
+        .email(user_email)
+        .boardNumber(replyDTO.getBoardNumber())
+        .replyContent(replyDTO.getReplyContent())
+        .bnum(Integer.toString(bnum))
+        .build();
+    }
 
     replyService.create(register);
   }
@@ -69,5 +85,43 @@ public class ReplyController {
     replyService.delete(reply);
   
   }
+
+  @PostMapping("/replyrequire")
+  public void replyRequire(@AuthenticationPrincipal String user_email, @RequestBody ReplyDTO replyDTO) {
+    
+    ReplyEntity reply = new ReplyEntity();
+
+    int step = Integer.parseInt(replyDTO.getStep());
+    String maxLvl = replyService.getMaxLvl(replyDTO.getBoardNumber(), replyDTO.getStep()+1);
+    int bnum = Integer.parseInt(replyDTO.getBnum());
+
+    String requireStep = Integer.toString(step + 1);
+
+    ReplyEntity register = null;
+
+    if(maxLvl == null) {
+      register = ReplyEntity.builder()
+      .email(user_email)
+      .boardNumber(replyDTO.getBoardNumber())
+      .replyContent(replyDTO.getReplyContent())
+      .bnum(Integer.toString(bnum))
+      .step(requireStep)
+      .build();
+    } else {
+
+      String requireLvl = Integer.toString(Integer.parseInt(maxLvl) + 1);
+      register = ReplyEntity.builder()
+      .email(user_email)
+      .boardNumber(replyDTO.getBoardNumber())
+      .replyContent(replyDTO.getReplyContent())
+      .bnum(Integer.toString(bnum))
+      .step(requireStep)
+      .lvl(requireLvl)
+      .build();
+    }
+    
+    replyService.create(register);
+  }
+  
 
 }

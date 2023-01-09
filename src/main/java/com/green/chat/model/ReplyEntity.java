@@ -43,9 +43,9 @@ public class ReplyEntity {
   @Column(nullable = true, columnDefinition = "varchar(255) default 0")
   private String step;
 
-  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
+  @Column(nullable = true, columnDefinition = "varchar(255) default 1")
   private String lvl;
 
-  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
+  @Column(nullable = true, columnDefinition = "varchar(255) default 1")
   private String bnum;
 }
