@@ -1,9 +1,9 @@
 import React, { useMemo } from "react"
 import countryList from "react-select-country-list";
 
-const CountryName = ({value, onChange}) => {
+const Local = ({value, onChange}) => {
 
-  const CountryNameChangeInput = (event) => {
+  const LocalChangeInput = (event) => {
     onChange(event.target.value);
   };
 
@@ -12,10 +12,10 @@ const CountryName = ({value, onChange}) => {
   return (
     <select
       value={value}
-      onChange={(value) => CountryNameChangeInput(value)}>
+      onChange={(value) => LocalChangeInput(value)}>
       {options.map((country) => <option key={country.value}>{country.label}</option>)}
     </select>
   )
 }
 
-export default CountryName  
+export default Local

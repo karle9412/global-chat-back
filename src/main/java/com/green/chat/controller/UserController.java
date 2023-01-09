@@ -64,7 +64,6 @@ public class UserController {
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .phonenumber(userDTO.getPhonenumber())
                     .local(userDTO.getLocal())
-                    .role(userDTO.getRole())
                     .build();
             // 서비스를 이용해 리파지토리에 유저 저장
             UserEntity registeredUser = userService.create(user);
@@ -108,9 +107,6 @@ public class UserController {
             final UserDTO responseUserDTO = UserDTO.builder()
                     .email(user.getUsername())
                     // .id(user.getId())
-                    .phonenumber(user.getPhonenumber())
-                    .local(user.getLocal())
-                    .role(userDTO.getRole())
                     .token(token)
                     .build();
             System.out.println("요기요기" + ResponseEntity.ok(responseUserDTO));

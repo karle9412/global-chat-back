@@ -1,8 +1,8 @@
 import React  from "react"
 
-const NickName = ({value, onChange}) => {
+const UserName = ({value, onChange}) => {
 
-  const NickNameChangeInput = (event) => {
+  const UserNameChangeInput = (event) => {
     onChange(event.target.value)
   }
 
@@ -12,9 +12,9 @@ const NickName = ({value, onChange}) => {
        type="text"
         placeholder="닉네임"
         value={value}
-        onChange={(value) => NickNameChangeInput(value)}/>
+        onChange={(value) => UserNameChangeInput(value)}/>
     </div>
   )
 }
 
-export default NickName
+export default UserName
