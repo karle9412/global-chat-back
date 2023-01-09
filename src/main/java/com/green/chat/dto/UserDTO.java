@@ -19,4 +19,5 @@ public class UserDTO {
     private String local;
     private String role;
     private String intro;
+    private String leavecheck;
 }

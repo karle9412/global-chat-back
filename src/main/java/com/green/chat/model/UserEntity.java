@@ -61,4 +61,7 @@ public class UserEntity {
     @Lob
     private String intro;
 
+    @Column(columnDefinition = "varchar(255) default '0'")
+    private String leavecheck;
+
 }
