@@ -1,8 +1,8 @@
 import React from "react"
 import countryList from "react-select-country-list";
-import CountryName from "./Registry/CountryName";
+import Local from "./Registry/Local";
 import Email from "./Registry/Email";
-import NickName from "./Registry/NickName";
+import UserName from "./Registry/UserName";
 import Passwd from "./Registry/Passwd";
 import PhoneNumber from "./Registry/PhoneNumber";
 import { useNavigate } from "react-router-dom";
@@ -13,18 +13,18 @@ export default class registry extends React.Component {
     super()
 
     this.state = {
-      countryName: "",
+      local: "",
       options: countryList().getData(),
       phoneNumber: "",
       email: "",
-      nickName: "",
+      username: "",
       passwd: "",
     }
   }
 
-  CountryNameChangeInput(countryName) {
+  LocalChangeInput(local) {
     this.setState({
-      countryName,
+      local,
     })
   }
 
@@ -40,9 +40,9 @@ export default class registry extends React.Component {
     })
   }
 
-  nickNameChangeInput(nickName) {
+  UsernameChangeInput(username) {
     this.setState({
-      nickName,
+      username,
     })
   }
 
@@ -54,7 +54,7 @@ export default class registry extends React.Component {
 
   registry_submit = (event) => {
     event.preventDefault();
-    const { countryName, phoneNumber, email, nickName, passwd } = this.state
+    const { local, phoneNumber, email, username, passwd } = this.state
     
 
     if (email.length === 0) {
@@ -71,7 +71,7 @@ export default class registry extends React.Component {
       return false;
     }
 
-    if (nickName.length === 0) {
+    if (username.length === 0) {
       alert("닉네임을 입력하지 않았습니다.");
       return false;
     }
@@ -87,10 +87,10 @@ export default class registry extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        country: countryName,
+        local: local,
         phoneNumber: phoneNumber,
         email: email,
-        nickName: nickName,
+        username: username,
         passwd: passwd,
       }),
     })
@@ -100,7 +100,7 @@ export default class registry extends React.Component {
   }
 
   render() {
-    const { countryName, phoneNumber, email, nickName, passwd } = this.state
+    const { local, phoneNumber, email, username, passwd } = this.state
 
     return (
       <>
@@ -116,9 +116,9 @@ export default class registry extends React.Component {
                     .local(userDTO.getLocal())
                     .role(userDTO.getRole()) */}
           <form>
-            <CountryName
-              value={countryName}
-              onChange={(value) => this.CountryNameChangeInput(value)} />
+            <Local
+              value={local}
+              onChange={(value) => this.LocalChangeInput(value)} />
             <PhoneNumber
               value={phoneNumber}
               onChange={(value) => this.phoneNumberChangeInput(value)} />
@@ -126,9 +126,9 @@ export default class registry extends React.Component {
               value={email}
               onChange={(value) => this.emailChangeInput(value)}
               id="email" />
-            <NickName
-              value={nickName}
-              onChange={(value) => this.nickNameChangeInput(value)} />
+            <UserName
+              value={username}
+              onChange={(value) => this.UsernameChangeInput(value)} />
             <Passwd
               value={passwd}
               onChange={(value) => this.passwdChangeInput(value)} />
