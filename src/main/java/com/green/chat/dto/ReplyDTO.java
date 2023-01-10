@@ -16,8 +16,9 @@ public class ReplyDTO {
   private String boardNumber;
   private String replyContent;
   private String indate;
-  private String step;
-  private String lvl;
-  private String bnum;
+  private int step;
+  private int lvl;
+  private int bnum;
+  private int nef;
   
 }
