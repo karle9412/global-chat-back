@@ -1,3 +1,4 @@
+import { TextField } from "@material-ui/core"
 import React from "react"
 
 const Email = ({ value, onChange }) => {
@@ -14,11 +15,18 @@ const Email = ({ value, onChange }) => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="이메일"
+      <TextField
+        variant="outlined"
+        required
+        fullWidth
+        id="email"
+        label="이메일"
+        name="email"
+        autoComplete="email"
+        style={{ width: '80%' }}
         value={value}
-        onChange={(value) => EmailChangeInput(value)} />
+        onChange={(value) => EmailChangeInput(value)}
+      />
     </div>
   )
 }

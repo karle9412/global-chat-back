@@ -40,12 +40,15 @@ public class ReplyEntity {
   @Column(nullable = true, columnDefinition = "varchar(255) default sysdate")
   private String indate;
 
-  @Column(nullable = true, columnDefinition = "varchar(255) default 0")
-  private String step;
+  @Column(nullable = true, columnDefinition = "Number default 0")
+  private Integer step;
 
-  @Column(nullable = true, columnDefinition = "varchar(255) default 1")
-  private String lvl;
+  @Column(nullable = true, columnDefinition = "Number default 1")
+  private Integer lvl;
 
-  @Column(nullable = true, columnDefinition = "varchar(255) default 1")
-  private String bnum;
+  @Column(nullable = true, columnDefinition = "Number default 1")
+  private Integer bnum;
+
+  @Column(nullable = true, columnDefinition = "Number default 1")
+  private Integer nef;
 }
