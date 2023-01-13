@@ -8,7 +8,7 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
 
-import com.green.chat.model.FileEntity;
+import com.green.chat.model.UserFileEntity;
 import com.green.chat.persistence.FileReopository;
 
 @Service
@@ -17,19 +17,18 @@ public class FileService {
     @Autowired
     private FileReopository fileReopository;
 
-    public void save(FileEntity file) {
+    public void save(UserFileEntity file) {
         fileReopository.save(file);
     }
 
-    public Optional<FileEntity> findById(String id) {
-        Optional<FileEntity> file = fileReopository.findById(id);
+    public Optional<UserFileEntity> findById(String id) {
+        Optional<UserFileEntity> file = fileReopository.findById(id);
         return file;
     }
 
-    public FileEntity getById(String id) {
+    public UserFileEntity getById(String id) {
         return fileReopository.getById(id);
     }
-
     
 
     // public FileEntity getById(String id) {

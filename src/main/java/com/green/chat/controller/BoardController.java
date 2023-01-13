@@ -47,7 +47,6 @@ public class BoardController {
 
         BoardEntity board = BoardEntity.builder()
                 .email(email)
-                .boardTitle(boardDTO.getBoardTitle())
                 .boardContent(boardDTO.getBoardContent())
                 .boardWriter(boardWriter)
                 .build();
@@ -82,7 +81,6 @@ public class BoardController {
 
         BoardEntity updateList = new BoardEntity();
         updateList = boardService.getOneBoardList(bno);
-        updateList.setBoardTitle(boardDTO.getBoardTitle());
         updateList.setBoardContent(boardDTO.getBoardContent());
 
         boardService.write(updateList);

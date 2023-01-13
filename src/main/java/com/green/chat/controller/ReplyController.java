@@ -75,8 +75,8 @@ public class ReplyController {
   }
 
   // 댓글 출력
-  @GetMapping("/request")
-  public ResponseEntity<?> getreply(@RequestParam String boardNumber) {
+  @GetMapping("/request/{boardNumber}")
+  public ResponseEntity<?> getreply(@PathVariable String boardNumber) {
 
     // 해당 게시글에서 모든 댓글을 뽑아내기
     List<ReplyEntity> entities = replyService.getreply(boardNumber);

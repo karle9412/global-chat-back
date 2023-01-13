@@ -1,13 +1,10 @@
 package com.green.chat.model;
 
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,25 +23,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "File_tb")
-public class FileEntity {
-    
-//   @Id
-//   @GeneratedValue(strategy = GenerationType.AUTO)
-//   private Long id;
-@Id
-@GeneratedValue(generator = "system-uuid")
-@GenericGenerator(name = "system-uuid", strategy = "uuid")
-private String id;
-   
-  private String email; 
+@Table(name = "BoardFile_tb")
+public class BoardFileEntity {
+
+  // @Id
+  // @GeneratedValue(strategy = GenerationType.AUTO)
+  // private Long id;
+  @Id
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  private String id;
+
+  private String bno;
   private String filename;
   private String fileOriname;
   private String fileUrl;
-    
-    @CreationTimestamp    // 입력시 시간 정보를 자동으로 입력해는 어노테이션.
-    @Column(name="insert_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertDate;
- 
+
+  @CreationTimestamp // 입력시 시간 정보를 자동으로 입력해는 어노테이션.
+  @Column(name = "insert_date")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date insertDate;
+
 }

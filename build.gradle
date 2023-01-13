@@ -40,8 +40,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// <https://mvnrepository.com/artifact/com.google.guava/guava>
 	implementation 'com.google.guava:guava:30.1.1-jre'
-	
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'

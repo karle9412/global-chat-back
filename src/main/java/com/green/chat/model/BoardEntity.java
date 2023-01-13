@@ -13,9 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,9 +35,6 @@ public class BoardEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
-    private String boardTitle;
 
     @Column(nullable = false)
     @Lob

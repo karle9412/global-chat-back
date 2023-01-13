@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class BoardDTO {
+public class BoardFileDTO {
 
-    private String bno;
-
-    private String boardContent;
-
-    private String boardWriter;
-
-    private String boardHashTag;
+  private String id;
+  private String bno;
+  private String filename;
+  private String fileOriname;
+  private String fileUrl;
 
 }

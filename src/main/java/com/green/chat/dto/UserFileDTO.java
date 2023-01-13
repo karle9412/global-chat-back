@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class FileDTO {
+public class UserFileDTO {
     
     private String id;
     private String email; 

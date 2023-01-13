@@ -28,24 +28,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import com.green.chat.dto.FileDTO;
-import com.green.chat.model.FileEntity;
+import com.green.chat.dto.UserFileDTO;
+import com.green.chat.model.UserFileEntity;
 import com.green.chat.service.FileService;
+import com.green.chat.service.UserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/file")
-public class FileController {
+@RequestMapping("/userfile")
+public class UserFileController {
 
     @Autowired
     private FileService fileService;
 
     @PostMapping("/upload")
     public void fileupload(@AuthenticationPrincipal String user_email, @RequestPart MultipartFile files) throws IOException{
-        FileEntity file = new FileEntity();
+        UserFileEntity file = new UserFileEntity();
 
         String sourceFileName = files.getOriginalFilename();
         String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
@@ -53,7 +54,8 @@ public class FileController {
 
         File destinationFile;
         String destinationFileName;
-        String fileUrl = "C:\\Users\\82105\\Desktop\\ws\\chat\\chat\\src\\main\\resources\\static\\image\\";
+        String fileUrl = "C:\\Users\\82105\\Desktop\\ws\\chat-react\\reactfront\\public\\resource\\";
+        
         
     
         do{
@@ -71,11 +73,13 @@ public class FileController {
         file.setFileUrl(fileUrl);
         fileService.save(file);
     
-    }   
+    }
+       
      @GetMapping("/upload/{id}")
      public ResponseEntity<?> getFile(@PathVariable String id) {
        
-         Optional<FileEntity> file = fileService.findById(id);
+         Optional<UserFileEntity> file = fileService.findById(id);
+
          return ResponseEntity.ok(file);
         
      }
@@ -94,7 +98,7 @@ public class FileController {
 @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable String id) throws MalformedURLException {
 
-        FileEntity file = fileService.findById(id).orElse(null);
+        UserFileEntity file = fileService.findById(id).orElse(null);
 
         UrlResource resource = new UrlResource("file:" + file.getFileUrl());
 
