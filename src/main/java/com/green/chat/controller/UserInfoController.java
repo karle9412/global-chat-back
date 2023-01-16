@@ -18,7 +18,6 @@ import com.green.chat.dto.UserDTO;
 import com.green.chat.model.UserEntity;
 import com.green.chat.service.UserService;
 
-import io.swagger.annotations.Authorization;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -8,11 +8,9 @@ import com.green.chat.security.TokenProvider;
 import com.green.chat.service.AlarmService;
 import com.green.chat.service.UserService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.EntityNotFoundException;
@@ -35,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Slf4j
-@Api(tags = { "User" })
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -55,8 +52,6 @@ public class UserController {
     // Bean으로 작성해도 됨.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Operation(summary = "회원가입", description = "user 정보 생성")
-    @ApiResponse(code = 200, message = "ok")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {
@@ -167,6 +162,20 @@ public class UserController {
         message.setText(newpasswd);
         javaMailSender.send(message);
     }
+
+    //이메일로 유저의 프로필 사진 불러오기
+    @GetMapping("/getuserimg/{email}")
+  public String getUserImg(@PathVariable String email) {
+    if(email == null){
+        return null;
+    }
+    // 해당 게시글에서 모든 댓글을 뽑아내기
+    String userImg = userService.getUserImg(email);
+
+    // 출력
+    return userImg;
+  }
+
 
 
 }

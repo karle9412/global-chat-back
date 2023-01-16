@@ -64,4 +64,7 @@ public class UserEntity {
     @Column(columnDefinition = "varchar(255) default '0'")
     private String leavecheck;
 
+    @Column(columnDefinition = "varchar(255) default '4028b28b85b973c80185b983b8ba0000'")
+    private String userfileid;
+
 }

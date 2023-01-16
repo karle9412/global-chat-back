@@ -20,4 +20,5 @@ public class UserDTO {
     private String role;
     private String intro;
     private String leavecheck;
+    private String userfileid;
 }

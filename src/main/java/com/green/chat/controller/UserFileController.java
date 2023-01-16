@@ -33,7 +33,6 @@ import com.green.chat.model.UserFileEntity;
 import com.green.chat.service.FileService;
 import com.green.chat.service.UserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
