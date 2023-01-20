@@ -8,9 +8,9 @@ import com.green.chat.security.TokenProvider;
 import com.green.chat.service.AlarmService;
 import com.green.chat.service.UserService;
 
+
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,7 +58,7 @@ public class UserController {
     // @Operation(summary = "회원가입", description = "user 정보 생성")
     // @ApiResponse(code = 200, message = "ok")
 
-    
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         
@@ -100,6 +100,8 @@ public class UserController {
         }
     }
 
+
+    // 로그인
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         UserEntity user = userService.getByCredentials(
@@ -179,6 +181,7 @@ public class UserController {
         javaMailSender.send(message);
     }
 
+    // 핸드폰번호 중복확인
     @GetMapping("/byphone")
     public ResponseEntity<?> byphone(@RequestParam String phonenumber){
 
@@ -197,6 +200,8 @@ public class UserController {
     }
     }
 
+
+    // 닉네임 중복확인
     @GetMapping("/byusername")
     public ResponseEntity<?> byusername(@RequestParam String username){
 
@@ -214,7 +219,8 @@ public class UserController {
                     .body(responseDTO);
     }
     }
-
+    
+    // 이메일 중복확인
     @GetMapping("/byemail")
     public ResponseEntity<?> byemail(@RequestParam String email){
 
@@ -236,34 +242,14 @@ public class UserController {
             //이메일로 유저의 프로필 사진 불러오기
     @GetMapping("/getuserimg/{email}")
     public String getUserImg(@PathVariable String email) {
-        System.out.println("사진 이메일" + email);
-      
+      if(email == null){
+          return null;
+      }
       // 해당 게시글에서 모든 댓글을 뽑아내기
       String userImg = userService.getUserImg(email);
-
-      System.out.println("유저이미지" + userImg);
   
       // 출력
       return userImg;
-    }
-
-    @GetMapping("/getusername/{email}")
-    public String getUserName(@PathVariable String email) {
-        System.out.println("이름 이메일" + email);
-      
-      //
-      String userName = userService.getUserName(email);
-
-      System.out.println("유저이름" + userName);
-  
-      // 출력
-      return userName;
-    }
-
-    @GetMapping("/getalluser")
-    public List<UserEntity> getAllUser(){
-        List<UserEntity> allUser = userService.getAllUser();
-        return allUser;
     }
         
 

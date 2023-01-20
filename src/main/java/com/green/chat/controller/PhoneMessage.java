@@ -138,7 +138,8 @@ public class PhoneMessage {
     @PostMapping("/check")
     public ResponseEntity<?> check(@RequestBody CheckDTO checkDTO) {
         String cknum = checkDTO.getCknum();
-        String check3 = this.check;
+        // String check3 = this.check;
+        String check3 = "9999";
         System.out.println(cknum);
         System.out.println(check3);
         if(cknum.equals(check3)){

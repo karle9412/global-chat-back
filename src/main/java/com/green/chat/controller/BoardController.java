@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.BoardDTO;
 import com.green.chat.dto.PageDTO;
+import com.green.chat.dto.ResponseDTO;
 import com.green.chat.model.BoardEntity;
 import com.green.chat.model.UserEntity;
 import com.green.chat.service.BoardService;
@@ -55,20 +56,31 @@ public class BoardController {
   
     @GetMapping("/list/{num}")
     public ResponseEntity<?> boardList(@PathVariable("num") int num) {
-
-        PageDTO page = new PageDTO();
-        page.setNum(num);
-        page.setCount(boardService.countAll());
-        System.out.println("전체수"+page.getCount());
-
-        int postnum = page.getPostnum();
-        int displaypost = page.getDisplaypost();
+        
+        int postnum = 10;
 
         // List<BoardEntity> boardList = boardService.getBoardList();
         List<BoardEntity> boardList = boardService.getBoardListpage(postnum,num);
-        System.out.println("디스플레이"+displaypost);
 
-        return ResponseEntity.ok(boardList);
+        if(boardList.size() == 0) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error("").build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        } else {
+            return ResponseEntity.ok(boardList);
+        }
+
+    }
+
+    @GetMapping("/search/{searchItem}/{num}")
+    public ResponseEntity<?> search(@PathVariable("searchItem") String searchItem, @PathVariable("num") int num) {
+
+        int postnum = 10;
+
+        List<BoardEntity> searchList = boardService.search(postnum,num,searchItem);
+
+        return ResponseEntity.ok(searchList);
     }
 
     // 게시글 검색
@@ -80,6 +92,7 @@ public class BoardController {
         return ResponseEntity.ok(searchList);
     }
 
+    
     // 게시글 상세보기
   
     @GetMapping("/detail/{bno}")

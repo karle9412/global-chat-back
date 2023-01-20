@@ -39,10 +39,12 @@ public class BoardService {
         return boardRepository.findByBoardContentContaining(searchItem);
     }
 
-    public int countAll() {
-        return (int) boardRepository.count();
+    public List<BoardEntity> search(int postnum, int num, String searchItem) {
+        Pageable pageable = PageRequest.of(num, postnum);
+        List<BoardEntity> boardList = boardRepository.findByBoardContentContaining(searchItem,pageable);
+        return boardList;
     }
-
+    
     // public List<BoardEntity> getBoardListpage(int postnum, int displaypost) {
     //     return boardRepository.getBoardListpage(postnum, displaypost);
     // }

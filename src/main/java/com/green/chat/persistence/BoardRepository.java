@@ -20,6 +20,8 @@ public interface BoardRepository extends JpaRepository<BoardEntity, String> {
 
     List<BoardEntity> findByBoardContentContaining(String searchItem);
 
+    List<BoardEntity> findByBoardContentContaining(String searchItem, Pageable pageable);
+
 
     @Query(value = "SELECT b FROM BoardEntity b")
     List<BoardEntity> getBoardListpage(Pageable pageable);
