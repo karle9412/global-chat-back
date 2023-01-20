@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.BoardDTO;
+import com.green.chat.dto.PageDTO;
 import com.green.chat.model.BoardEntity;
 import com.green.chat.model.UserEntity;
 import com.green.chat.service.BoardService;
 import com.green.chat.service.UserService;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -50,15 +52,36 @@ public class BoardController {
     }
 
     // 게시글 리스트 보기
-    @GetMapping("/list")
-    public ResponseEntity<?> boardList() {
+  
+    @GetMapping("/list/{num}")
+    public ResponseEntity<?> boardList(@PathVariable("num") int num) {
 
-        List<BoardEntity> boardList = boardService.getBoardList();
+        PageDTO page = new PageDTO();
+        page.setNum(num);
+        page.setCount(boardService.countAll());
+        System.out.println("전체수"+page.getCount());
+
+        int postnum = page.getPostnum();
+        int displaypost = page.getDisplaypost();
+
+        // List<BoardEntity> boardList = boardService.getBoardList();
+        List<BoardEntity> boardList = boardService.getBoardListpage(postnum,num);
+        System.out.println("디스플레이"+displaypost);
 
         return ResponseEntity.ok(boardList);
     }
 
+    // 게시글 검색
+    @GetMapping("/search/{searchItem}")
+    public ResponseEntity<?> search(@PathVariable("searchItem") String searchItem) {
+
+        List<BoardEntity> searchList = boardService.search(searchItem);
+
+        return ResponseEntity.ok(searchList);
+    }
+
     // 게시글 상세보기
+  
     @GetMapping("/detail/{bno}")
     public ResponseEntity<?> boardDetail(@PathVariable("bno") String bno) {
 
@@ -87,4 +110,14 @@ public class BoardController {
 
         boardService.delete(deleteList);
     }
+
+    // 게시글 검색
+    // @GetMapping("/search")
+    // public ResponseEntity<?> search(@RequestParam("keyword") String keyword) {
+
+    // List<BoardEntity> searchList = boardService.search(keyword);
+
+    // return ResponseEntity.ok(searchList);
+    // }
+
 }

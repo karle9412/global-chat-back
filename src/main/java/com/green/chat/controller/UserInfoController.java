@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.PwChangeDTO;
+import com.green.chat.dto.ResponseDTO;
 import com.green.chat.dto.UserDTO;
 import com.green.chat.model.UserEntity;
 import com.green.chat.service.UserService;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,15 +32,11 @@ public class UserInfoController {
     
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // @GetMapping("/getemail")
-    // public ResponseEntity getemail(@AuthenticationPrincipal String user_email){
-        
-    // }
     
 
     // 비밀번호 변경
     @PutMapping("/changepw")
-    public String changepw(@AuthenticationPrincipal String user_email, @RequestBody PwChangeDTO pwChangeDTO ){
+    public ResponseEntity<?> changepw(@AuthenticationPrincipal String user_email, @RequestBody PwChangeDTO pwChangeDTO ){
         // chkpw : 이전비밀번호(확인용), newpw(새 비밀번호)
        
         String chkpw = pwChangeDTO.getChkpw();
@@ -52,12 +50,17 @@ public class UserInfoController {
                         passwordEncoder);
         
         if(user == null){
-            return "1"; // 비밀번호 틀림
+            ResponseDTO responseDTO = ResponseDTO.builder()
+            .error("잘못된 비밀번호.")
+            .build();
+    return ResponseEntity
+            .badRequest()
+            .body(responseDTO); // 비밀번호 틀림
         }
        System.out.println("찾음"+user);
         user.setPassword(password);
         userService.save(user);
-        return "0"; // 비밀번호 변경
+        return ResponseEntity.ok().body("0"); // 비밀번호 변경
         
     }
        
@@ -70,7 +73,7 @@ public class UserInfoController {
         userService.save(user);
     }
 
-    // 자기소개 보기
+    // 자기소개 보기 (이메일로 유저찾기)
     @GetMapping("/getintro")
     public ResponseEntity<?> getIntro(@AuthenticationPrincipal String user_email){
 
@@ -79,4 +82,5 @@ public class UserInfoController {
         return ResponseEntity.ok(user);   // 프론트에서 intro만 받아쓸것.
     }
 
+   
 }

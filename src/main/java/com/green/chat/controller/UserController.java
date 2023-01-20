@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -23,19 +25,20 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 @Slf4j
+// @Api(tags = { "User" })
 @RestController
 @RequestMapping("/auth")
 public class UserController {
+
+    
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -52,8 +55,13 @@ public class UserController {
     // Bean으로 작성해도 됨.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    // @Operation(summary = "회원가입", description = "user 정보 생성")
+    // @ApiResponse(code = 200, message = "ok")
+
+    
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+        
         try {
             // 리퀘스트를 이용해 저장할 유저 만들기
             UserEntity user = UserEntity.builder()
@@ -122,11 +130,19 @@ public class UserController {
     // 전화번호로 이메일 찾기
     @PostMapping("/getemail")
     public ResponseEntity<?> getEmail(@RequestBody UserDTO userDTO) {
-        System.out.println("아아아아" + userDTO);
-        String email = userService.findByPhonenumber(userDTO.getPhonenumber());
-        return ResponseEntity.ok().body(email);
+      
+        UserEntity user = userService.findByPhonenumber(userDTO.getPhonenumber());
+        if(user==null){
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("잘못된 핸드폰번호")
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+        return ResponseEntity.ok().body(user);
     }
-
+    
     // 비밀번호 재설정 후 이메일로 보내줌
     @PostMapping("/updatepassword")
     public void updatePassword(@RequestBody UserDTO userDTO) {
@@ -157,25 +173,98 @@ public class UserController {
         // 이메일 발송
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("gmlfyd417@naver.com");
-        message.setTo("gmlfyd417@gmail.com");
+        message.setTo(email);
         message.setSubject("글랜챗 비밀번호 재설정");
         message.setText(newpasswd);
         javaMailSender.send(message);
     }
 
-    //이메일로 유저의 프로필 사진 불러오기
-    @GetMapping("/getuserimg/{email}")
-  public String getUserImg(@PathVariable String email) {
-    if(email == null){
-        return null;
+    @GetMapping("/byphone")
+    public ResponseEntity<?> byphone(@RequestParam String phonenumber){
+
+        UserEntity user = userService.findByPhonenumber(phonenumber);
+
+        if(user == null){
+            return ResponseEntity.ok().body("0");
+        }
+    else{
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("폰번호 중복")
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
     }
-    // 해당 게시글에서 모든 댓글을 뽑아내기
-    String userImg = userService.getUserImg(email);
+    }
 
-    // 출력
-    return userImg;
-  }
+    @GetMapping("/byusername")
+    public ResponseEntity<?> byusername(@RequestParam String username){
 
+        UserEntity user = userService.findByUsername(username);
 
+        if(user == null){
+            return ResponseEntity.ok().body("0");
+        }
+    else{
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("닉네임 중복")
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+    }
+    }
+
+    @GetMapping("/byemail")
+    public ResponseEntity<?> byemail(@RequestParam String email){
+
+        UserEntity user = userService.findByEmail(email);
+
+        if(user == null){
+            return ResponseEntity.ok().body("0");
+        }
+    else{
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("이메일 중복")
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+                } 
+            }
+
+            //이메일로 유저의 프로필 사진 불러오기
+    @GetMapping("/getuserimg/{email}")
+    public String getUserImg(@PathVariable String email) {
+        System.out.println("사진 이메일" + email);
+      
+      // 해당 게시글에서 모든 댓글을 뽑아내기
+      String userImg = userService.getUserImg(email);
+
+      System.out.println("유저이미지" + userImg);
+  
+      // 출력
+      return userImg;
+    }
+
+    @GetMapping("/getusername/{email}")
+    public String getUserName(@PathVariable String email) {
+        System.out.println("이름 이메일" + email);
+      
+      //
+      String userName = userService.getUserName(email);
+
+      System.out.println("유저이름" + userName);
+  
+      // 출력
+      return userName;
+    }
+
+    @GetMapping("/getalluser")
+    public List<UserEntity> getAllUser(){
+        List<UserEntity> allUser = userService.getAllUser();
+        return allUser;
+    }
+        
 
 }

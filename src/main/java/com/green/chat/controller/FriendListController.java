@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.FriendListDTO;
+import com.green.chat.dto.PageDTO;
 import com.green.chat.model.FriendListEntity;
 import com.green.chat.model.UserEntity;
 import com.green.chat.service.FriendListService;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -116,10 +118,11 @@ public class FriendListController {
     }
 
     // 차단 목록 보기
-    @GetMapping("/block")
-    public ResponseEntity<?> getBlock(@AuthenticationPrincipal String user_email) {
-
-        List<FriendListEntity> entities = friendListService.blocklist(user_email);
+    @GetMapping("/block/{num}")
+    public ResponseEntity<?> getBlock(@AuthenticationPrincipal String user_email, @PathVariable int num) {
+        System.out.println("이메일: " + user_email);
+        
+        List<FriendListEntity> entities = friendListService.getBlocklist(5,num,user_email);
 
         return ResponseEntity.ok(entities);
     }

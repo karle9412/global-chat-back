@@ -33,7 +33,6 @@ public class FriendListEntity {
 
     @Column(nullable = false)
     private String email;
-
     @Column(nullable = false)
     private String requireemail;
 

@@ -22,4 +22,12 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     @Query(value="SELECT USERFILEID FROM TESTUSER WHERE EMAIL = ?", nativeQuery = true)
     String getUserImg(String email);
 
+    UserEntity findByUsername(String username);
+
+    @Query(value="SELECT USERNAME FROM TESTUSER WHERE EMAIL = ?", nativeQuery = true)
+    String getUserName(String email);
+
+    @Query(value="SELECT * FROM TESTUSER ", nativeQuery = true)
+    List<UserEntity> getAllUser();
+
 }

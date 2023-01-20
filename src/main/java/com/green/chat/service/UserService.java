@@ -41,9 +41,9 @@ public class UserService {
         return null;
     }
 
-    public String findByPhonenumber(final String phonenumber) {
+    public UserEntity findByPhonenumber(final String phonenumber) {
         final UserEntity user = userRepository.findByPhonenumber(phonenumber);
-        return user.getEmail();
+        return user;
     }
 
     public UserEntity findByEmail(String email) {
@@ -57,6 +57,18 @@ public class UserService {
 
     public String getUserImg(String email) {
       return userRepository.getUserImg(email);
+    }
+
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public String getUserName(String email) {
+      return userRepository.getUserName(email);
+    }
+
+    public List<UserEntity> getAllUser() {
+        return userRepository.getAllUser();
     }
 
 }
