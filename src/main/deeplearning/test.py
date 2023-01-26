@@ -1,11 +1,6 @@
 import numpy as np
 import pandas as pd
-import json
-import csv
-import matplotlib.pyplot as plt
-from keras.preprocessing.text import text_to_word_sequence, Tokenizer
-from keras.utils import pad_sequences
-from keras.layers import Embedding
+from keras.preprocessing.text import Tokenizer
 import os
 import data_preprocessing
 

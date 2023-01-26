@@ -1,3 +1,4 @@
+# 유튜브에서 데이터 가져오는 코드
 import pandas
 from googleapiclient.discovery import build
 

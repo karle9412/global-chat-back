@@ -82,32 +82,3 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.show()
 
-test_df = pd.read_csv('test_text.csv')
-pred_result = []
-last_prediction = []
-for i in test_df['text']:
-    pred_result.append(i)
-
-token.fit_on_texts(pred_result)
-pred_text = token.texts_to_sequences(pred_result)
-try:
-    Y_prediction = model.predict(pred_text)
-    Y_prediction = Y_prediction[0]
-    print(Y_prediction)
-
-    pred_category = list(Y_prediction).index(max(Y_prediction))
-
-    if pred_category == 0:
-        print("음식")
-    elif pred_category == 1:
-        print("게임")
-    elif pred_category == 2:
-        print("영화")
-    elif pred_category == 3:
-        print("음악")
-    elif pred_category == 4:
-        print("스포츠")
-    elif pred_category == 5:
-        print("여행")
-except:
-    print("오류 발생")

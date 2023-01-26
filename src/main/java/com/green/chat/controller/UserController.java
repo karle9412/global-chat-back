@@ -11,6 +11,7 @@ import com.green.chat.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -250,6 +251,25 @@ public class UserController {
   
       // 출력
       return userImg;
+    }
+
+    @GetMapping("/getalluser")
+    public List<UserEntity> getAllUser(){
+        List<UserEntity> allUser = userService.getAllUser();
+        return allUser;
+    }
+
+    @GetMapping("/getusername/{email}")
+    public String getUserName(@PathVariable String email) {
+        System.out.println("이름 이메일" + email);
+
+      //
+      String userName = userService.getUserName(email);
+
+      System.out.println("유저이름" + userName);
+
+      // 출력
+      return userName;
     }
         
 
