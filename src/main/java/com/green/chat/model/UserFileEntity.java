@@ -25,10 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "USERFILE_TB")
 public class UserFileEntity {
-
-  // @Id
-  // @GeneratedValue(strategy = GenerationType.AUTO)
-  // private Long id;
   @Id
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid")

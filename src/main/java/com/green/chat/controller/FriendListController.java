@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.FriendListDTO;
-import com.green.chat.dto.PageDTO;
 import com.green.chat.model.FriendListEntity;
-import com.green.chat.model.UserEntity;
 import com.green.chat.service.FriendListService;
-import com.google.common.util.concurrent.Service;
 
 import lombok.extern.slf4j.Slf4j;
 

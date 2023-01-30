@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
-// @Api(tags = { "User" })
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -55,9 +51,6 @@ public class UserController {
 
     // Bean으로 작성해도 됨.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    // @Operation(summary = "회원가입", description = "user 정보 생성")
-    // @ApiResponse(code = 200, message = "ok")
 
     // 회원가입
     @PostMapping("/signup")

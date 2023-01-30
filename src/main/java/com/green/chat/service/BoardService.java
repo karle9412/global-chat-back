@@ -7,8 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
-import com.green.chat.dto.BoardDTO;
 import com.green.chat.model.BoardEntity;
 import com.green.chat.persistence.BoardRepository;
 
@@ -44,10 +42,6 @@ public class BoardService {
         List<BoardEntity> boardList = boardRepository.findByBoardContentContaining(searchItem,pageable);
         return boardList;
     }
-    
-    // public List<BoardEntity> getBoardListpage(int postnum, int displaypost) {
-    //     return boardRepository.getBoardListpage(postnum, displaypost);
-    // }
 
     public List<BoardEntity> getBoardListpage(int postnum, int num) {
         Pageable pageable = PageRequest.of(num, postnum);

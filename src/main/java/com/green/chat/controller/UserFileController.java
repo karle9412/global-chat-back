@@ -4,19 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import com.green.chat.dto.UserFileDTO;
 import com.green.chat.model.UserFileEntity;
 import com.green.chat.service.FileService;
-import com.green.chat.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,17 +75,6 @@ public class UserFileController {
          return ResponseEntity.ok(file);
         
      }
-
-//      @GetMapping("/download/{id}")
-//     public ResponseEntity<?> fileDownload(@PathVariable String id) throws IOException {
-//     Optional<FileEntity> file = fileService.findById(id);
-//     Path path = Paths.get(file.get().getFileUrl());
-//     Resource resource = new InputStreamResource(Files.newInputStream(path));
-//     return ResponseEntity.ok()
-//             .contentType(MediaType.parseMediaType("application/octet-stream"))
-//             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.get().getFileOriname() + "\"")
-//             .body(resource);
-// }
     
 @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable String id) throws MalformedURLException {

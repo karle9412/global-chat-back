@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.PwChangeDTO;
@@ -81,6 +80,20 @@ public class UserInfoController {
 
         return ResponseEntity.ok(user);   // 프론트에서 intro만 받아쓸것.
     }
+
+    @PutMapping("/updateinfo")
+    public ResponseEntity<?> updateinfo(@AuthenticationPrincipal String user_email, @RequestBody UserDTO userDto){
+
+        UserEntity user = userService.findByEmail(user_email);
+        
+        user.setUsername(userDto.getUsername());
+        user.setIntro(userDto.getIntro());
+
+        userService.save(user);
+
+        return ResponseEntity.ok(user);
+    }
+     
 
    
 }

@@ -13,12 +13,16 @@ test_text = test_h5py.test_text(email)
 con = oracledb.connect(user="c##oracle_chat", password="1234", dsn="localhost:1521/xe")
 cursor = con.cursor()
 
+cursor.execute("SELECT * FROM FAVORITE_TB WHERE EMAIL = " + "\'" + email + "\'")
+for i in cursor:
+    print(i)
+
 token = Tokenizer()
 
-model = load_model('./model/best_model.hdf5')
+model = load_model('src\\main\\deeplearning\\model\\best_model.hdf5')
 
 test_df = pd.read_csv('test_text.csv')
-df = pd.read_csv('train_clean.csv')
+df = pd.read_csv('src\\main\\deeplearning\\train_clean.csv')
 result = []
 
 for text in df['text']:
@@ -72,6 +76,10 @@ for i in view_result:
     cursor.execute(sql)
     con.commit()
 
+
+cursor.execute("SELECT * FROM FAVORITE_TB WHERE EMAIL = " + "\'" + email + "\'")
+for i in cursor:
+    print(i)
 
 con.close()
 
