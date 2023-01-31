@@ -34,10 +34,6 @@ public class ReplyController {
   @PostMapping("/register/{boardNumber}")
   public void register(@PathVariable String boardNumber, @AuthenticationPrincipal String user_email,
       @RequestBody ReplyDTO replyDTO) {
-    // // bnum 최댓값 뽑기, 댓글 한 묶음
-    // int maxbnum = replyService.getMaxBnum(boardNumber);
-    // // Nef최댓값 뽑기, Nef는 댓글을 출력할 때 쓰기 위한 것
-    // int maxNef = replyService.getMaxNef(boardNumber);
 
     // 댓글 엔티티를 하나 만들기
     ReplyEntity register = null;
