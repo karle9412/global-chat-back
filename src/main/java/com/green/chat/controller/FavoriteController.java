@@ -1,5 +1,10 @@
 package com.green.chat.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,9 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.green.chat.dto.FavoriteListDTO;
+import com.green.chat.dto.FavoriteCreateDto;
 import com.green.chat.dto.FavoriteScoreDTO;
 import com.green.chat.model.FavoriteListEntity;
 import com.green.chat.service.FavoriteListService;
@@ -23,120 +29,78 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/favoriteList")
 public class FavoriteController {
 
-  @Autowired
-  FavoriteListService favoriteListService;
-  
-  @PostMapping("/create")
-  public void create(@RequestBody FavoriteListDTO favoriteListDTO){
+    @Autowired
+    FavoriteListService favoriteListService;
 
-    FavoriteListEntity favorite = FavoriteListEntity.builder()
-    .email(favoriteListDTO.getEmail())
-    .build();
+    @PutMapping("/algorithm")
+    public void algorithm(@AuthenticationPrincipal String email) {
+        ProcessBuilder builder;
+        BufferedReader br;
 
-    favoriteListService.save(favorite);
+        String arg1 = "C:/Users/82105/AppData/Local/Programs/Python/Python38/python.exe";
+        String arg2 = "C:/Users/82105/Desktop/ws/chat/chat/src/main/deeplearning/deeplearning_result.py";
 
-  }
+        builder = new ProcessBuilder(arg1, arg2, email);
 
-  @PutMapping("/food")
-    public void food(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
+        builder.redirectErrorStream(true);
+        try {
+            Process process = builder.start();
 
-        int Score = Integer.parseInt(favoriteScoreDTO.getFood());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getFood());
+            int exitval = process.waitFor();
 
-        String resultScore = Integer.toString(Score + favoriteScore);;
+            ArrayList<String> al = new ArrayList<>();
 
-        favoriteListEntity.setFood(resultScore);
+            br = new BufferedReader(new InputStreamReader(process.getInputStream(), "euc-kr"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
-        favoriteListService.save(favoriteListEntity);
     }
 
-    @PutMapping("/sports")
-    public void sports(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
+    @PostMapping("/create")
+    public void create(@RequestBody FavoriteScoreDTO favoriteScoreDTO) {
+        System.out.println("나와라");
+        System.out.println(favoriteScoreDTO.getEmail());
+        FavoriteListEntity favoriteList = FavoriteListEntity.builder()
+        .email(favoriteScoreDTO.getEmail())
+        .build();
 
-        int Score = Integer.parseInt(favoriteScoreDTO.getSports());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getSports());
-
-        String resultScore = Integer.toString(Score + favoriteScore);;
-
-        favoriteListEntity.setSports(resultScore);
-
-        favoriteListService.save(favoriteListEntity);
+        favoriteListService.save(favoriteList);
     }
 
-    @PutMapping("/movie")
-    public void movie(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
+    @PutMapping("/plus")
+    public void plus(@RequestBody FavoriteCreateDto favoriteCreateDto, @RequestParam String email){
+        for(int i = 0; i <= 2; i++){
+            String text = "";
+            switch(i){
+                case 0: text = favoriteCreateDto.getA();
+                break;
+                case 1: text = favoriteCreateDto.getB();
+                break;
+                case 2: text = favoriteCreateDto.getC();
+                break;
+            }
 
-        int Score = Integer.parseInt(favoriteScoreDTO.getMovie());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getMovie());
-
-        String resultScore = Integer.toString(Score + favoriteScore);;
-
-        favoriteListEntity.setMovie(resultScore);
-
-        favoriteListService.save(favoriteListEntity);
-    }
-
-    @PutMapping("/game")
-    public void game(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
-
-        int Score = Integer.parseInt(favoriteScoreDTO.getGame());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getGame());
-
-        String resultScore = Integer.toString(Score + favoriteScore);;
-
-        favoriteListEntity.setGame(resultScore);
-
-        favoriteListService.save(favoriteListEntity);
-    }
-
-    @PutMapping("/music")
-    public void music(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
-
-        int Score = Integer.parseInt(favoriteScoreDTO.getMusic());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getMusic());
-
-        String resultScore = Integer.toString(Score + favoriteScore);;
-
-        favoriteListEntity.setMusic(resultScore);
-
-        favoriteListService.save(favoriteListEntity);
-    }
-
-    @PutMapping("/travel")
-    public void travel(@AuthenticationPrincipal String user_email, @RequestBody FavoriteScoreDTO favoriteScoreDTO)
-    {
-        FavoriteListEntity favoriteListEntity = new FavoriteListEntity();
-        favoriteListEntity = favoriteListService.getById(user_email);
-
-        int Score = Integer.parseInt(favoriteScoreDTO.getTravel());
-        int favoriteScore = Integer.parseInt(favoriteListEntity.getTravel());
-
-        String resultScore = Integer.toString(Score + favoriteScore);;
-
-        favoriteListEntity.setTravel(resultScore);
-
-        favoriteListService.save(favoriteListEntity);
+            switch(text){
+                case "game" : favoriteListService.update_game(email);
+                break;
+                case "music" : favoriteListService.update_music(email);
+                break;
+                case "movie" : favoriteListService.update_movie(email);
+                break;
+                case "travel" : favoriteListService.update_travel(email);
+                break;
+                case "sports" : favoriteListService.update_sports(email);
+                break;
+                case "food" : favoriteListService.update_food(email);
+            }
+        }
     }
 
     @GetMapping("/view/{useremail}")
-    public ResponseEntity<?> favoriteView(@PathVariable("useremail") String useremail){
-      FavoriteListEntity favoriteView = favoriteListService.getOnefavoriteList(useremail);
-      return ResponseEntity.ok(favoriteView);
+    public ResponseEntity<?> favoriteView(@PathVariable("useremail") String useremail) {
+        FavoriteListEntity favoriteView = favoriteListService.getOnefavoriteList(useremail);
+        return ResponseEntity.ok(favoriteView);
     }
-  
+
 }

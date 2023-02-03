@@ -1,55 +1,41 @@
-package com.green.chat.api;
+package com.green.chat.controller.api;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.green.chat.dto.TranslateDTO;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
-// 네이버 기계번역 (Papago SMT) API 예제
 @RestController
-@RequestMapping("/translate")
-public class Translate {
+@RequestMapping("/detect")
+public class DetectLanguage {
 
     @GetMapping(value="/check")
-    public String TextTranslate(@RequestBody TranslateDTO translateDTO) {
-        System.out.println(translateDTO);
-        String clientId = "l8R233DMpUEBz7mLGvZC";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "MQkauGE3ud";//애플리케이션 클라이언트 시크릿값";
-        String text;
+    public String Detect(@RequestParam String text) {
+        String clientId = "l8R233DMpUEBz7mLGvZC"; //애플리케이션 클라이언트 아이디값";
+        String clientSecret = "MQkauGE3ud"; //애플리케이션 클라이언트 시크릿값";
 
-        String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
+        String query;
         try {
-            text = URLEncoder.encode("안녕하세요. 오늘 기분은 어떻습니까?", "UTF-8");
+            query = URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("인코딩 실패", e);
         }
+        String apiURL = "https://openapi.naver.com/v1/papago/detectLangs";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 
-        String responseBody = post(apiURL, requestHeaders, text);
+        String responseBody = post(apiURL, requestHeaders, query);
 
         System.out.println(responseBody);
         return responseBody;
@@ -57,7 +43,7 @@ public class Translate {
 
     private static String post(String apiUrl, Map<String, String> requestHeaders, String text){
         HttpURLConnection con = connect(apiUrl);
-        String postParams = "source=ko&target=en&text=" + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
+        String postParams =  "query="  + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
         try {
             con.setRequestMethod("POST");
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {

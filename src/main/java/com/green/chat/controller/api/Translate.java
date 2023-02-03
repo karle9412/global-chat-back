@@ -1,6 +1,11 @@
-package com.green.chat.api;
+package com.green.chat.controller.api;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,31 +13,42 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetectLanguage {
-    public static void main(String[] args) {
-        String clientId = "l8R233DMpUEBz7mLGvZC"; //애플리케이션 클라이언트 아이디값";
-        String clientSecret = "MQkauGE3ud"; //애플리케이션 클라이언트 시크릿값";
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
-        String query;
+
+// 네이버 기계번역 (Papago SMT) API 예제
+@RestController
+@RequestMapping("/translate")
+public class Translate {
+
+    @GetMapping(value="/check")
+    public String TextTranslate(@RequestParam String text, @RequestParam String source) {
+        String clientId = "l8R233DMpUEBz7mLGvZC";//애플리케이션 클라이언트 아이디값";
+        String clientSecret = "MQkauGE3ud";//애플리케이션 클라이언트 시크릿값";
+
+        String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
         try {
-            query = URLEncoder.encode("만나서 반갑습니다.", "UTF-8");
+            text = URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("인코딩 실패", e);
         }
-        String apiURL = "https://openapi.naver.com/v1/papago/detectLangs";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 
-        String responseBody = post(apiURL, requestHeaders, query);
+        String responseBody = post(apiURL, requestHeaders, text, source);
 
         System.out.println(responseBody);
+        return responseBody;
     }
 
-    private static String post(String apiUrl, Map<String, String> requestHeaders, String text){
+    private static String post(String apiUrl, Map<String, String> requestHeaders, String text, String source){
         HttpURLConnection con = connect(apiUrl);
-        String postParams =  "query="  + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
+        String postParams = "source="+source+"&target=en&text=" + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
         try {
             con.setRequestMethod("POST");
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
@@ -86,3 +102,28 @@ public class DetectLanguage {
         }
     }
 }
+
+// package com.green.chat.controller.api;
+
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestParam;
+// import org.springframework.web.bind.annotation.RestController;
+
+
+
+
+// @RestController
+// @RequestMapping("/Translate")
+// public class Translate {
+
+//     // 게시글 리스트 보기 (페이징 처리)
+//     @GetMapping("/Translate")
+//     public String boardList(@RequestParam String text) {
+//         System.out.println(text);
+        
+//         return text;
+//     }
+
+    
+// }

@@ -4,17 +4,13 @@ import oracledb
 
 def test_text(email):
     email = "\'" + email +"\'"
-    print(email)
     con = oracledb.connect(user="c##oracle_chat", password="1234", dsn="localhost:1521/xe")
     cursor = con.cursor()
     sql = ""
-    sql += "select CHAT_CONTENT from CHAT_CONTENT_TB WHERE EMAIL=" + email
-    print(sql)
+    sql += "select MESSAGE from MESSAGE_TB WHERE SENDER_NAME=" + email + "and MESSAGE_CHECK = '0'"
 
     cursor.execute(sql)
     out_data = cursor.fetchmany()
-
-    print(out_data)
 
     result = []
     for i in out_data:
@@ -23,13 +19,9 @@ def test_text(email):
         result.append(text)
 
     con.close()
-    print(result)
 
     clean_train_df = pd.DataFrame({'text': result})
 
-    DATA_IN_PATH = './'
+    DATA_IN_PATH = 'C:/Users/82105/Desktop/ws/chat/chat/src/main/deeplearning/'
     TRAIN_CLEAN_DATA = 'test_text.csv'
     clean_train_df.to_csv(DATA_IN_PATH + TRAIN_CLEAN_DATA, index = False)
-
-
-

@@ -25,4 +25,28 @@ public class FavoriteListService {
     return favoriteRepository.getById(useremail);
   }
 
+  public void update_game(String email){
+    favoriteRepository.update_game(email);
+  }
+
+  public void update_music(String email){
+    favoriteRepository.update_music(email);
+  }
+
+  public void update_movie(String email){
+    favoriteRepository.update_movie(email);
+  }
+
+  public void update_travel(String email){
+    favoriteRepository.update_travel(email);
+  }
+
+  public void update_sports(String email){
+    favoriteRepository.update_sports(email);
+  }
+
+  public void update_food(String email){
+    favoriteRepository.update_food(email);
+  }
+
 }

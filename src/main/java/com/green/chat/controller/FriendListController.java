@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.green.chat.dto.FriendListDTO;
+import com.green.chat.dto.PageDTO;
 import com.green.chat.model.FriendListEntity;
+import com.green.chat.model.UserEntity;
+import com.green.chat.persistence.UserRepository;
 import com.green.chat.service.FriendListService;
+import com.green.chat.service.UserService;
+import com.google.common.util.concurrent.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,16 +34,22 @@ public class FriendListController {
 
     @Autowired
     private FriendListService friendListService;
+    @Autowired
+    private UserService userService;
 
     // check = 0:요청보냄, 1:요청받음, 2:친구, 3:차단
     // 친구요청
     @PostMapping("/request")
     public void apply(@AuthenticationPrincipal String user_email, @RequestBody FriendListDTO friendListDTO) {
-
+       
+        String myname = getusername(user_email);
+        String reqname = getusername(friendListDTO.getRequireemail());
+        
         FriendListEntity apply = FriendListEntity.builder()
                 .email(user_email)
                 .requireemail(friendListDTO.getRequireemail())
                 .requirecheck("0")
+                .requsername(reqname)
                 .build();
         friendListService.create(apply);
 
@@ -47,17 +58,18 @@ public class FriendListController {
                 .email(friendListDTO.getRequireemail())
                 .requireemail(user_email)
                 .requirecheck("1")
+                .requsername(myname)
                 .build();
         friendListService.create(require);
     }
 
     // 보낸 요청 목록 보기
     @GetMapping("/request")
-    public ResponseEntity<?> getRequestList(@AuthenticationPrincipal String user_email) {
+    public List<FriendListEntity> getRequestList(@AuthenticationPrincipal String user_email) {
 
         List<FriendListEntity> entities = friendListService.getRequestList(user_email);
 
-        return ResponseEntity.ok(entities);
+        return entities;
     }
 
     // 받은 요청 목록 보기
@@ -141,6 +153,15 @@ public class FriendListController {
         friendListService.delete(list);
         friendListService.delete(list2);
 
+    }
+
+
+
+    public String getusername(String useremail){
+
+       UserEntity entity = userService.findByEmail(useremail);
+       String username = entity.getUsername();
+       return username;
     }
 
 }

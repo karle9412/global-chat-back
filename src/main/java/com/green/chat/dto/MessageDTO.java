@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Message {
+public class MessageDTO {
 //1111
     private String senderName;
     private String receiverName;

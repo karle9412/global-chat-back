@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FavoriteScoreDTO {
+	private String email;
   private String food;
 	private String game;
 	private String music;

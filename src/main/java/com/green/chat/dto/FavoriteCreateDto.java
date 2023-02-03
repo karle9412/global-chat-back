@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class FriendListDTO {
-    private String email;
-    private String requireemail;
-    private String requirecheck;
-    private String requsername;
+public class FavoriteCreateDto {
+
+  private String a;
+  private String b;
+  private String c;
+  
 }

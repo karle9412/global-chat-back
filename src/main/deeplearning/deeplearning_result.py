@@ -5,13 +5,16 @@ from keras.models import load_model
 from keras.utils import pad_sequences
 import oracledb
 import test_h5py
+import sys
 
-email = input("이메일을 입력하세요")
+email = sys.argv[1]
 
 test_text = test_h5py.test_text(email)
 
 con = oracledb.connect(user="c##oracle_chat", password="1234", dsn="localhost:1521/xe")
 cursor = con.cursor()
+
+print(email)
 
 cursor.execute("SELECT * FROM FAVORITE_TB WHERE EMAIL = " + "\'" + email + "\'")
 for i in cursor:
@@ -77,9 +80,12 @@ for i in view_result:
     con.commit()
 
 
-cursor.execute("SELECT * FROM FAVORITE_TB WHERE EMAIL = " + "\'" + email + "\'")
+cursor.execute("SELECT * FROM FAVORITE_TB WHERE EMAIL = \'" + email + "\'")
 for i in cursor:
     print(i)
+
+cursor.execute("UPDATE MESSAGE_TB SET MESSAGE_CHECK = \'1\' WHERE SENDER_NAME= \'" + email + "\'and MESSAGE_CHECK= \'0\'")
+con.commit()
 
 con.close()
 

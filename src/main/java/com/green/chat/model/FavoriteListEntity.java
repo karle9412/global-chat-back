@@ -24,22 +24,22 @@ public class FavoriteListEntity {
   @Id
   private String email;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-  private String food;
+  @Column(columnDefinition = "Number default 0")
+  private Integer food;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-	private String game;
+  @Column(columnDefinition = "Number default 0")
+	private Integer game;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-	private String movie;
+  @Column(columnDefinition = "Number default 0")
+	private Integer movie;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-	private String music;
+  @Column(columnDefinition = "Number default 0")
+	private Integer music;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-	private String sports;
+  @Column(columnDefinition = "Number default 0")
+	private Integer sports;
 
-  @Column(columnDefinition = "varchar(255) default '0'")
-	private String travel;
+  @Column(columnDefinition = "Number default 0")
+	private Integer travel;
   
 }
