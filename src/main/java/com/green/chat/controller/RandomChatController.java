@@ -80,9 +80,9 @@ public class RandomChatController {
         
         List<MessageEntity> list1 = messageService.findBySenderNameAndReceiverName(username1,username2);
         List<MessageEntity> list2 = messageService.findBySenderNameAndReceiverName(username2,username1);
-        //  System.out.println(list);
         List<MessageEntity> result = new ArrayList<>(list1);
         result.addAll(list2);
+        System.out.println(result);
        
         return ResponseEntity.ok().body(result);
     }

@@ -148,6 +148,7 @@ public class FavoriteController {
         }
 
         List<FavoriteListEntity> requireFavorite = favoriteListService.requireFavorite(email);
+        System.out.println(requireFavorite);
         Map<String, List> recommend_Check = new HashMap<String, List>();
         List<String> checkEmail = new ArrayList<String>();
         for (int i = 0; i < requireFavorite.size(); i++) {

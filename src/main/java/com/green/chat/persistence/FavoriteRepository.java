@@ -48,6 +48,6 @@ public interface FavoriteRepository extends JpaRepository<FavoriteListEntity,Str
   @Query(value="SELECT * FROM FAVORITE_TB WHERE EMAIL = ?", nativeQuery = true)
   FavoriteListEntity onefavorite(String useremail);
 
-  @Query(value="SELECT * FROM FAVORITE_TB fa WHERE fa.EMAIL IN (SELECT u.EMAIL FROM TESTUSER U WHERE EMAIL NOT IN (SELECT l.requireemail FROM TESTUSER u INNER JOIN FRIEND_LIST l ON u.EMAIL = l.EMAIL WHERE u.EMAIL = ?1))AND fa.email !=?1", nativeQuery = true)
+  @Query(value="SELECT * FROM FAVORITE_TB fa WHERE fa.EMAIL IN (SELECT u.EMAIL FROM USER_TB U WHERE EMAIL NOT IN (SELECT l.requireemail FROM USER_TB u INNER JOIN FRIEND_LIST l ON u.EMAIL = l.EMAIL WHERE u.EMAIL = ?1))AND fa.email !=?1", nativeQuery = true)
   List<FavoriteListEntity> requireFavorite(String email);
 }

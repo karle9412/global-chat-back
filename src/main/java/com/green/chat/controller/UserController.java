@@ -234,6 +234,7 @@ public class UserController {
             }
 
             //이메일로 유저의 프로필 사진 불러오기
+            
     @GetMapping("/getuserimg/{email}")
     public String getUserImg(@PathVariable String email) {
       if(email == null){

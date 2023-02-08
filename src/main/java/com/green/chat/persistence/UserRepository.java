@@ -19,15 +19,15 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     UserEntity findByPhonenumber(String phonenumber);
 
-    @Query(value="SELECT USERFILEID FROM TESTUSER WHERE EMAIL = ?", nativeQuery = true)
+    @Query(value="SELECT USERFILEID FROM USER_TB WHERE EMAIL = ?", nativeQuery = true)
     String getUserImg(String email);
 
     UserEntity findByUsername(String username);
 
-    @Query(value="SELECT USERNAME FROM TESTUSER WHERE EMAIL = ?", nativeQuery = true)
+    @Query(value="SELECT USERNAME FROM USER_TB WHERE EMAIL = ?", nativeQuery = true)
     String getUserName(String email);
 
-    @Query(value="SELECT * FROM TESTUSER ", nativeQuery = true)
+    @Query(value="SELECT * FROM USER_TB ", nativeQuery = true)
     List<UserEntity> getAllUser();
 
 }

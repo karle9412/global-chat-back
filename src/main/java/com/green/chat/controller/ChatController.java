@@ -29,7 +29,6 @@ import com.green.chat.dto.Greeting;
 import com.green.chat.dto.HelloMessage;
 import com.green.chat.dto.MessageDTO;
 import com.green.chat.model.MessageEntity;
-import com.green.chat.dto.MessageDTO;
 import com.green.chat.persistence.ChatRepository;
 import com.green.chat.service.MessageService;
 
