@@ -1,5 +1,7 @@
 package com.green.chat.persistence;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +44,10 @@ public interface FavoriteRepository extends JpaRepository<FavoriteListEntity,Str
   @Modifying(clearAutomatically = true)
   @Query(value = "UPDATE FAVORITE_TB SET FOOD = FOOD + 100 WHERE EMAIL = ?", nativeQuery = true)
   void update_food(String email);
+
+  @Query(value="SELECT * FROM FAVORITE_TB WHERE EMAIL = ?", nativeQuery = true)
+  FavoriteListEntity onefavorite(String useremail);
+
+  @Query(value="SELECT * FROM FAVORITE_TB fa WHERE fa.EMAIL IN (SELECT u.EMAIL FROM TESTUSER U WHERE EMAIL NOT IN (SELECT l.requireemail FROM TESTUSER u INNER JOIN FRIEND_LIST l ON u.EMAIL = l.EMAIL WHERE u.EMAIL = ?1))AND fa.email !=?1", nativeQuery = true)
+  List<FavoriteListEntity> requireFavorite(String email);
 }

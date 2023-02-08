@@ -155,8 +155,6 @@ public class FriendListController {
 
     }
 
-
-
     public String getusername(String useremail){
 
        UserEntity entity = userService.findByEmail(useremail);

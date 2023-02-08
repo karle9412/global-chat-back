@@ -1,5 +1,7 @@
 package com.green.chat.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,8 @@ public class FavoriteListService {
     return favoriteRepository.getById(user_email);
   }
 
-  public FavoriteListEntity getOnefavoriteList(String useremail) {
-    return favoriteRepository.getById(useremail);
+  public FavoriteListEntity onefavorite(String useremail) {
+    return favoriteRepository.onefavorite(useremail);
   }
 
   public void update_game(String email){
@@ -47,6 +49,10 @@ public class FavoriteListService {
 
   public void update_food(String email){
     favoriteRepository.update_food(email);
+  }
+
+  public List<FavoriteListEntity> requireFavorite(String email) {
+    return favoriteRepository.requireFavorite(email);
   }
 
 }
