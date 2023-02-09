@@ -116,7 +116,10 @@ public class FavoriteController {
 
     @GetMapping("/view")
     public Set<String> favoriteView(@AuthenticationPrincipal String email) {
+        System.out.println("확인 중");
+        System.out.println(email);
         FavoriteListEntity onefavorite = favoriteListService.onefavorite(email);
+        System.out.println(onefavorite);
 
         Integer food = onefavorite.getFood();
         Integer game = onefavorite.getGame();

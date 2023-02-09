@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.green.chat.dto.ChatDTO;
 import com.green.chat.model.ChatEntity;
 import com.green.chat.model.MessageEntity;
-import com.green.chat.persistence.ChatRepository;
 import com.green.chat.service.ChatService;
 import com.green.chat.service.MessageService;
+import com.green.chat.service.UserService;
 
 @RestController
 @RequestMapping("/randomchat")
@@ -36,6 +36,9 @@ public class RandomChatController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<?> randomChat(@RequestParam String username){
@@ -74,15 +77,14 @@ public class RandomChatController {
     
     
     @GetMapping("/message")
-    public ResponseEntity<?> getmsg(@RequestParam String username1, @RequestParam String username2){
+    public ResponseEntity<?> getmsg(@AuthenticationPrincipal String useremail, @RequestParam String otherName){
+        
+        String username = userService.getUserName(useremail);
+        System.out.println(username);
+        System.out.println(otherName);
 
-        
-        
-        List<MessageEntity> list1 = messageService.findBySenderNameAndReceiverName(username1,username2);
-        List<MessageEntity> list2 = messageService.findBySenderNameAndReceiverName(username2,username1);
+        List<MessageEntity> list1 = messageService.findBySenderNameAndReceiverName(username,otherName);
         List<MessageEntity> result = new ArrayList<>(list1);
-        result.addAll(list2);
-        System.out.println(result);
        
         return ResponseEntity.ok().body(result);
     }
