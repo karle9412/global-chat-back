@@ -1,5 +1,6 @@
 package com.green.chat.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,7 @@ import com.green.chat.model.UserEntity;
 import com.green.chat.service.BoardService;
 import com.green.chat.service.UserService;
 
-
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/board")
@@ -47,6 +46,7 @@ public class BoardController {
         BoardEntity board = BoardEntity.builder()
                 .email(email)
                 .boardContent(boardDTO.getBoardContent())
+                .boardCategory(boardDTO.getBoardCategory())
                 .boardWriter(boardWriter)
                 .build();
         boardService.write(board);
@@ -72,7 +72,6 @@ public class BoardController {
 
     }
 
-
     // 게시글 검색 리스트 페이징처리
     @GetMapping("/search/{searchItem}/{num}")
     public ResponseEntity<?> search(@PathVariable("searchItem") String searchItem, @PathVariable("num") int num) {
@@ -88,11 +87,18 @@ public class BoardController {
     @GetMapping("/search/{searchItem}")
     public ResponseEntity<?> search(@PathVariable("searchItem") String searchItem) {
 
-        List<BoardEntity> searchList = boardService.search(searchItem);
-
-        return ResponseEntity.ok(searchList);
+        List<BoardEntity> searchList1 = boardService.search1(searchItem);
+        List<BoardEntity> searchList2 = boardService.search2(searchItem);
+        List<BoardEntity> searchList3 = boardService.search3(searchItem);
+       
+        System.out.println(searchList1);
+        System.out.println(searchList2);
+        System.out.println(searchList3);
+        List<BoardEntity> result = new ArrayList<>(searchList1);
+        result.addAll(searchList2);
+        result.addAll(searchList3);
+        return ResponseEntity.ok(result);
     }
-
     
     // 게시글 상세보기
     @GetMapping("/detail/{bno}")
@@ -122,6 +128,16 @@ public class BoardController {
         deleteList = boardService.getOneBoardList(bno);
 
         boardService.delete(deleteList);
+    }
+    
+    // 마이페이지 내가 쓴 게시글 리스트
+    @GetMapping("/profile")
+    public ResponseEntity<?> profileBoard(@RequestParam("email") String email) {
+
+        System.out.println("hi" + email);
+        List<BoardEntity> profileBoard = boardService.profileBoard(email);
+
+        return ResponseEntity.ok(profileBoard);
     }
 
 }

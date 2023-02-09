@@ -19,10 +19,16 @@ public interface BoardRepository extends JpaRepository<BoardEntity, String> {
     BoardEntity getByBno(String bno);
 
     List<BoardEntity> findByBoardContentContaining(String searchItem);
+    
+    List<BoardEntity> findByBoardCategoryContaining(String result);
+    
+    List<BoardEntity> findByBoardHashTagContaining(String searchItem);
 
     List<BoardEntity> findByBoardContentContaining(String searchItem, Pageable pageable);
-
+    
     @Query(value = "SELECT b FROM BoardEntity b")
     List<BoardEntity> getBoardListpage(Pageable pageable);
+
+    List<BoardEntity> findByEmail(String email);
 
 }

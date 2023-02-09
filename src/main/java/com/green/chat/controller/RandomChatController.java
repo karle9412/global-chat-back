@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.green.chat.dto.ChatDTO;
 import com.green.chat.model.ChatEntity;
 import com.green.chat.model.MessageEntity;
+import com.green.chat.persistence.ChatRepository;
 import com.green.chat.service.ChatService;
 import com.green.chat.service.MessageService;
 import com.green.chat.service.UserService;
@@ -75,13 +77,10 @@ public class RandomChatController {
         chatService.delete(roomid);
     }
     
-    
     @GetMapping("/message")
     public ResponseEntity<?> getmsg(@AuthenticationPrincipal String useremail, @RequestParam String otherName){
         
         String username = userService.getUserName(useremail);
-        System.out.println(username);
-        System.out.println(otherName);
 
         List<MessageEntity> list1 = messageService.findBySenderNameAndReceiverName(username,otherName);
         List<MessageEntity> result = new ArrayList<>(list1);

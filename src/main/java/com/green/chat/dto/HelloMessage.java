@@ -13,7 +13,8 @@ import lombok.Setter;
 @Setter
 public class HelloMessage {
 
-	private String name;
-
-	private String cont = "시발";
+	private String sendname;
+	private String receivename;
+	private String cont;
+	private String setting;
 }

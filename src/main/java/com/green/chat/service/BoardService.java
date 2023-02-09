@@ -1,5 +1,6 @@
 package com.green.chat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,18 @@ public class BoardService {
         boardRepository.delete(deleteList);
     }
 
-    public List<BoardEntity> search(String searchItem) {
+    public List<BoardEntity> search1(String searchItem) {
         return boardRepository.findByBoardContentContaining(searchItem);
+    }
+
+    public List<BoardEntity> search2(String searchItem) {
+        String[] str = searchItem.split("");
+        String result = str[0].toUpperCase() + searchItem.substring(1);
+        return boardRepository.findByBoardCategoryContaining(result);
+    }
+
+    public List<BoardEntity> search3(String searchItem) {
+        return boardRepository.findByBoardHashTagContaining(searchItem);
     }
 
     public List<BoardEntity> search(int postnum, int num, String searchItem) {
@@ -49,6 +60,10 @@ public class BoardService {
         Pageable pageable = PageRequest.of(num, postnum);
         List<BoardEntity> boardList = boardRepository.getBoardListpage(pageable);
         return boardList;
+    }
+
+    public List<BoardEntity> profileBoard(String email) {
+        return boardRepository.findByEmail(email);
     }
     
 

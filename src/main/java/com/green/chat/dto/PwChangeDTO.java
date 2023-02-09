@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PwChangeDTO {
 
+    private String email;
     private String newpw;
     private String chkpw;
 

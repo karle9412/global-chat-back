@@ -12,11 +12,9 @@ import lombok.NoArgsConstructor;
 public class BoardDTO {
 
     private String bno;
-
     private String boardContent;
-
     private String boardWriter;
-
     private String boardHashTag;
+    private String boardCategory;
 
 }

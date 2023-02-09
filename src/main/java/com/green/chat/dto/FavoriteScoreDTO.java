@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FavoriteScoreDTO {
 	private String email;
-  private String food;
+	private String food;
 	private String game;
 	private String music;
-  private String movie;
+	private String movie;
 	private String sports;
 	private String travel;
-  
+
 }

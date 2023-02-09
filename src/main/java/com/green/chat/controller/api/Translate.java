@@ -102,28 +102,3 @@ public class Translate {
         }
     }
 }
-
-// package com.green.chat.controller.api;
-
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RestController;
-
-
-
-
-// @RestController
-// @RequestMapping("/Translate")
-// public class Translate {
-
-//     // 게시글 리스트 보기 (페이징 처리)
-//     @GetMapping("/Translate")
-//     public String boardList(@RequestParam String text) {
-//         System.out.println(text);
-        
-//         return text;
-//     }
-
-    
-// }
