@@ -7,9 +7,13 @@ import oracledb
 import test_h5py
 import sys
 
-email = sys.argv[1]
+# email = sys.argv[1]
+email = 'test23@gmail.com'
+
 
 test_text = test_h5py.test_text(email)
+
+print(test_text)
 
 con = oracledb.connect(user="c##oracle_chat", password="1234", dsn="localhost:1521/xe")
 cursor = con.cursor()
@@ -22,10 +26,10 @@ for i in cursor:
 
 token = Tokenizer()
 
-model = load_model('src\\main\\deeplearning\\model\\best_model.hdf5')
+model = load_model('C:\\Users\\82105\\Desktop\\ws\\chat\\chat\\src\\main\\deeplearning\\model\\best_model.hdf5')
 
-test_df = pd.read_csv('test_text.csv')
-df = pd.read_csv('src\\main\\deeplearning\\train_clean.csv')
+test_df = pd.read_csv('C:\\Users\\82105\\Desktop\\ws\\chat\\chat\\src\\main\\deeplearning\\test_text.csv')
+df = pd.read_csv('C:\\Users\\82105\\Desktop\\ws\\chat\\chat\\src\\main\\deeplearning\\train_clean.csv')
 result = []
 
 for text in df['text']:
@@ -36,6 +40,7 @@ last_prediction = []
 for i in test_df['text']:
     pred_result.append(i)
 
+print(pred_result)
 token.fit_on_texts(result)
 token.fit_on_texts(pred_result)
 
@@ -46,8 +51,8 @@ view_result = []
 pred_text = pad_sequences(pred_text, maxlen=50)
 pred_text = np.where(pred_text > max_num, 0, pred_text)
 
-
-Y_prediction = model.predict(pred_text)
+print(pred_text)
+Y_prediction = model.(pred_text)
 
 for i in Y_prediction:
     pred_category = list(i).index(max(i))

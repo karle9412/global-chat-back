@@ -42,6 +42,7 @@ public class FavoriteController {
 
     @PutMapping("/algorithm")
     public void algorithm(@AuthenticationPrincipal String email) {
+        System.out.println("야 됐냐");
         ProcessBuilder builder;
         BufferedReader br;
 
@@ -59,6 +60,10 @@ public class FavoriteController {
             ArrayList<String> al = new ArrayList<>();
 
             br = new BufferedReader(new InputStreamReader(process.getInputStream(), "euc-kr"));
+            String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(">>>  " + line); // 표준출력에 쓴다
+        }
         } catch (Exception e) {
             System.out.println(e);
         }
