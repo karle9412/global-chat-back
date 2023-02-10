@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReplyUpdateDTO {
   
+  private String email;
   private String replyContent;
   private String indate;
   

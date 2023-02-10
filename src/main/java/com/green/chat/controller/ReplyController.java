@@ -79,9 +79,11 @@ public class ReplyController {
 
   // 댓글 수정
   @PutMapping("/replyupdate/{id}")
-  public void replyUpdate(@PathVariable String id, @RequestBody ReplyUpdateDTO replyUpdateDTO) {
-
-    // 댓글 기본키로 댓글 뽑아내기
+  public void replyUpdate(@AuthenticationPrincipal String user_email, @PathVariable String id, @RequestBody ReplyUpdateDTO replyUpdateDTO) {
+    if(user_email != replyUpdateDTO.getEmail()) {
+      
+    } else {
+      // 댓글 기본키로 댓글 뽑아내기
     ReplyEntity reply = replyService.getById(id);
 
     // 입력한 댓글 내용을 엔티티에 집어넣기
@@ -89,6 +91,7 @@ public class ReplyController {
 
     // 수정
     replyService.create(reply);
+    }
   }
 
   // 댓글 삭제

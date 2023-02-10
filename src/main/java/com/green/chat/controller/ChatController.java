@@ -78,7 +78,7 @@ public class ChatController {
     public Greeting greeting(HelloMessage message) throws Exception {
         System.out.println("으아아아아아ㅏ아앙"+message);
 
-        simpMessagingTemplate.convertAndSendToUser("test2","/alarm",message);
+        simpMessagingTemplate.convertAndSendToUser(message.getReceivename(),"/alarm",message.getCont());
         Thread.sleep(1000); // simulated delay
         // return new Greeting("Hello, " + message.getName() + "!");
         return new Greeting("Hello, !");
