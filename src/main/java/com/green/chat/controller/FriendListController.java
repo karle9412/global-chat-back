@@ -84,6 +84,8 @@ public class FriendListController {
     // 친구승낙
     @PutMapping("/consent")
     public void applyfriend(@AuthenticationPrincipal String user_email, @RequestParam String oppemail) {
+        System.out.println("나왔냐");
+        System.out.println(user_email);
 
         FriendListEntity list = new FriendListEntity();
         list = friendListService.findByEmailAndRequireemail(user_email, oppemail);
