@@ -83,16 +83,14 @@ public class FriendListController {
 
     // 친구승낙
     @PutMapping("/consent")
-    public void applyfriend(@AuthenticationPrincipal String user_email, @RequestParam String oppemail) {
-        System.out.println("나왔냐");
-        System.out.println(user_email);
-
+    public void applyfriend(@AuthenticationPrincipal String user_email, @RequestBody FriendListDTO friendListDTO) {
+       
         FriendListEntity list = new FriendListEntity();
-        list = friendListService.findByEmailAndRequireemail(user_email, oppemail);
+        list = friendListService.findByEmailAndRequireemail(user_email, friendListDTO.getRequireemail());
         System.out.println("리스트" + list);
 
         FriendListEntity list2 = new FriendListEntity();
-        list2 = friendListService.findByEmailAndRequireemail(oppemail, user_email);
+        list2 = friendListService.findByEmailAndRequireemail(friendListDTO.getRequireemail(), user_email);
         System.out.println("리스트2" + list2);
 
         list.setRequirecheck("2");
@@ -156,6 +154,8 @@ public class FriendListController {
         friendListService.delete(list2);
 
     }
+
+
 
     public String getusername(String useremail){
 
